@@ -26,7 +26,7 @@ from argparse import ArgumentParser
 
 __author__ = "Sean Whalen"
 __version__ = "0.6"
-__license__ = "MIT"
+__license__ = "Apache 2.0"
 name = "etupdate"
 
 argparser = ArgumentParser(description=__doc__)
