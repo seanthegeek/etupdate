@@ -119,7 +119,7 @@ def main():
         rules.extractall(file_root)
         current_version = latest_version
         with open(version_path, "w") as version_file:
-            versionfile.write(current_version)
+            version_file.write(current_version)
 
 if __name__ =="__main__":
     main()
