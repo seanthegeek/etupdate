@@ -34,10 +34,10 @@ argparser.add_argument("--silent", "-s", action="store_true", help="Suppress con
 argparser.add_argument("--force", "-f", action="store_true",
                        help="Download and install rules without checking for updates")
 
-url_root = "http://rules.emergingthreats.net"
+url_root = "http://rules.emergingthreats.net/open/suricata"
 version_url = "{0}/version.txt".format(url_root)
-rules_url = "{0}/open/suricata/emerging.rules.tar.gz".format(url_root)
-hash_url = "{0}/open/suricata/emerging.rules.tar.gz.md5".format(url_root)
+rules_url = "{0}/emerging.rules.tar.gz".format(url_root)
+hash_url = "{0}/emerging.rules.tar.gz.md5".format(url_root)
 file_root = "/etc/suricata"
 version_path = path.join(file_root, "rules", "eto_version")
 
