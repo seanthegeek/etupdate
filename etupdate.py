@@ -25,12 +25,12 @@ from tarfile import TarFile
 from argparse import ArgumentParser
 
 __author__ = "Sean Whalen"
-__version__ = "0.6"
+__version__ = "0.7"
 __license__ = "Apache 2.0"
 name = "etupdate"
 
-argparser = ArgumentParser(description=__doc__)
-argparser.add_argument("--silent", "-s", action="store_true", help="Suppress console output")
+argparser = ArgumentParser(description=__doc__, version=__version__)
+argparser.add_argument("--verbose", "-v", action="store_true", help="Output to the console")
 argparser.add_argument("--force", "-f", action="store_true",
                        help="Download and install rules without checking for updates")
 
@@ -42,9 +42,10 @@ file_root = "/etc/suricata"
 version_path = path.join(file_root, "rules", "eto_version")
 
 logger = logging.getLogger(name)
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.CRITICAL)
 log_handler = logging.StreamHandler(stdout)
 logger.addHandler(log_handler)
+
 
 def request(url, binary=False):
     """Make a standardized HTTP GET request with the proper user agent.
@@ -55,11 +56,13 @@ Return the response as a string, or StringIO if it is a binary."""
         response = StringIO(response)
     return response
 
+
 def get_latest_version():
     """Returns the latest version number from the rules server as an int."""
     version = int(request(version_url))
     logger.info("Latest version: {0}".format(version))
     return version
+
 
 def get_current_version():
     """Returns the current version number for the rules as an int, or 0 if no version information exists."""
@@ -70,9 +73,11 @@ def get_current_version():
     logger.info("Current version: {0}".format(current_version))
     return current_version
 
+
 def check_for_update():
     """Returns True if new rules are available."""
     return get_latest_version() > get_current_version()
+
 
 def hash_file(file_object, hasher, block_size=65536):
     """Returns a hash digest of choice for a given file object."""
@@ -81,6 +86,7 @@ def hash_file(file_object, hasher, block_size=65536):
         hasher.update(buf)
         buf = file_object.read(block_size)
     return hasher.hexdigest()
+
 
 def download_rules():
     """Download the ruleset, and check its hash. Returns an open TarFile."""
@@ -93,6 +99,7 @@ def download_rules():
     rules_file.seek(0)
     return TarFile.open(fileobj=rules_file, mode="r:gz")
 
+
 def check_archive_safety(archive):
     """Returns False is an archive has any evil paths members with names that start with .. or /"""
     safe = True
@@ -103,11 +110,12 @@ def check_archive_safety(archive):
     if not safe:
         raise RuntimeError("The archive contained paths that are not safe")
 
+
 def main():
     """Called when module is ran on its own"""
     args = argparser.parse_args()
-    if args.silent:
-        logger.setLevel(logging.CRITICAL)
+    if args.verbose:
+        logger.setLevel(logging.INFO)
 
     current_version = get_current_version()
     latest_version = get_latest_version()
@@ -121,5 +129,5 @@ def main():
         with open(version_path, "w") as version_file:
             version_file.write(str(current_version))
 
-if __name__ =="__main__":
+if __name__ == "__main__":
     main()
