@@ -30,7 +30,7 @@ __license__ = "Apache 2.0"
 name = "etupdate"
 
 argparser = ArgumentParser(description=__doc__, version=__version__)
-argparser.add_argument("--verbose", "-v", action="store_true", help="Output to the console")
+argparser.add_argument("--verbose", "-V", action="store_true", help="Output to the console")
 argparser.add_argument("--force", "-f", action="store_true",
                        help="Download and install rules without checking for updates")
 
