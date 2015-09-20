@@ -1,5 +1,5 @@
 # etupdate
-Updates the Emerging Threats open ruleset for Suricata. Fuuture versions may work with the ET Pro ruleset as well. 
+Updates the Emerging Threats open ruleset for Suricata. Fuuure versions may work with the ET Pro ruleset as well. 
 
 ## Installing
 
